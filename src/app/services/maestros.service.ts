@@ -23,7 +23,7 @@ export class MaestrosService {
   public esquemaMaestro() {
     return {
       'rol': '',
-      'clave_maestro': '',
+      'id_trabajador': '',
       'first_name': '',
       'last_name': '',
       'email': '',
@@ -43,8 +43,8 @@ export class MaestrosService {
     console.log("Validando maestro... ", data);
     let error: any = [];
 
-    if (!this.validatorService.required(data["clave_maestro"])) {
-      error["clave_maestro"] = this.errorService.required;
+    if (!this.validatorService.required(data["id_trabajador"])) {
+      error["id_trabajador"] = this.errorService.required;
     }
 
     if (!this.validatorService.required(data["first_name"])) {

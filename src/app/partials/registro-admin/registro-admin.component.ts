@@ -18,6 +18,9 @@ export class RegistroAdminComponent implements OnInit{
   public inputType_1: string = 'password';
   public inputType_2: string = 'password';
 
+  public passwordIsValid: boolean = false;
+  public confirmPasswordIsValid: boolean = false;
+
   public admin:any = {};
   public errors:any={};
   public editar:boolean = false;
@@ -100,6 +103,28 @@ export class RegistroAdminComponent implements OnInit{
       this.admin.password="";
       this.admin.confirmar_password="";
     }
+  }
+
+  public soloLetras(event: KeyboardEvent) {
+    const charCode = event.key.charCodeAt(0);
+    // Permitir solo letras (mayúsculas y minúsculas) y espacio
+    if (
+      !(charCode >= 65 && charCode <= 90) &&  // Letras mayúsculas
+      !(charCode >= 97 && charCode <= 122) && // Letras minúsculas
+      charCode !== 32                         // Espacio
+    ) {
+      event.preventDefault();
+    }
+  }
+
+    // Método para comprobar longitud de la contraseña
+  checkPasswordLength() {
+    this.passwordIsValid = this.admin.password?.length >= 8;
+  }
+
+  // Método para comprobar longitud de la confirmación de contraseña
+  checkConfirmPasswordLength() {
+    this.confirmPasswordIsValid = this.admin.confirmar_password?.length >= 8;
   }
 
   public actualizar(){

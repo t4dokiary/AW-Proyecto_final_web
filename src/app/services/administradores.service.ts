@@ -48,6 +48,8 @@ export class AdministradoresService {
 
     if (!this.validatorService.required(data["first_name"])) {
       error["first_name"] = this.errorService.required;
+    }else if (!this.validatorService.words(data["first_name"])) {
+      error["first_name"] = "El nombre solo puede contener letras";
     }
 
     if (!this.validatorService.required(data["last_name"])) {
@@ -65,10 +67,14 @@ export class AdministradoresService {
     if (!editar) {
       if (!this.validatorService.required(data["password"])) {
         error["password"] = this.errorService.required;
+      } else if (!this.validatorService.min(data["password"], 8)) {
+        error["password"] = this.errorService.min(8);
       }
 
       if (!this.validatorService.required(data["confirmar_password"])) {
         error["confirmar_password"] = this.errorService.required;
+      } else if (!this.validatorService.min(data["confirmar_password"], 8)) {
+        error["confirmar_password"] = this.errorService.min(8);
       }
     }
 

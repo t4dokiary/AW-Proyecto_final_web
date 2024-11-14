@@ -18,6 +18,9 @@ export class RegistroMaestrosComponent implements OnInit {
   public inputType_1: string = 'password';
   public inputType_2: string = 'password';
 
+  public passwordIsValid: boolean = false;
+  public confirmPasswordIsValid: boolean = false;
+
   public maestro: any = {};
   public errors: any = {};
   public editar: boolean = false;
@@ -145,5 +148,27 @@ export class RegistroMaestrosComponent implements OnInit {
 
     this.maestro.fecha_nacimiento = event.value.toISOString().split("T")[0];
     console.log("Fecha: ", this.maestro.fecha_nacimiento);
+  }
+
+  public soloLetras(event: KeyboardEvent) {
+    const charCode = event.key.charCodeAt(0);
+    // Permitir solo letras (mayúsculas y minúsculas) y espacio
+    if (
+      !(charCode >= 65 && charCode <= 90) &&  // Letras mayúsculas
+      !(charCode >= 97 && charCode <= 122) && // Letras minúsculas
+      charCode !== 32                         // Espacio
+    ) {
+      event.preventDefault();
+    }
+  }
+
+    // Método para comprobar longitud de la contraseña
+  checkPasswordLength() {
+    this.passwordIsValid = this.maestro.password?.length >= 8;
+  }
+
+  // Método para comprobar longitud de la confirmación de contraseña
+  checkConfirmPasswordLength() {
+    this.confirmPasswordIsValid = this.maestro.confirmar_password?.length >= 8;
   }
 }

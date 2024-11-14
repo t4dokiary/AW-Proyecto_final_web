@@ -7,23 +7,32 @@
           <label class="title-user" for="tipo_usuario">Ingresa los datos del maestro</label>
         </div>
       </div>
+
+      <!-- Espacio para mejor visualización -->
+
       <mat-form-field class="mat-input" appearance="outline">
         <mat-label>ID de trabajador</mat-label>
-        <input matInput [(ngModel)]="maestro.clave_maestro" name="id" placeholder="Escribe ID de trabajador">
+        <input matInput [(ngModel)]="maestro.id_trabajador" name="id" placeholder="Escribe ID de trabajador">
       </mat-form-field>
-      <div *ngIf="errors.clave_maestro" class="invalid-feedback">{{ errors.clave_maestro }}</div>
+      <div *ngIf="errors.id_trabajador" class="invalid-feedback">{{ errors.id_trabajador }}</div>
+
+      <!-- Espacio para mejor visualización -->
 
       <mat-form-field class="mat-input" appearance="outline">
         <mat-label>Nombre</mat-label>
-        <input matInput [(ngModel)]="maestro.first_name" placeholder="Escribe nombre">
+        <input matInput [(ngModel)]="maestro.first_name" placeholder="Escribe nombre" (keypress)="soloLetras($event)">
       </mat-form-field>
       <div *ngIf="errors.first_name" class="invalid-feedback">{{ errors.first_name }}</div>
 
+      <!-- Espacio para mejor visualización -->
+
       <mat-form-field class="mat-input" appearance="outline">
         <mat-label>Apellidos</mat-label>
-        <input matInput [(ngModel)]="maestro.last_name" placeholder="Escribe apellidos">
+        <input matInput [(ngModel)]="maestro.last_name" placeholder="Escribe apellidos" (keypress)="soloLetras($event)">
       </mat-form-field>
       <div *ngIf="errors.last_name" class="invalid-feedback">{{ errors.last_name }}</div>
+
+      <!-- Espacio para mejor visualización -->
 
       <mat-form-field class="mat-input" appearance="outline">
         <mat-label>Correo electrónico</mat-label>
@@ -31,24 +40,40 @@
       </mat-form-field>
       <div *ngIf="errors.email" class="invalid-feedback">{{ errors.email }}</div>
 
-      <mat-form-field class="mat-input" appearance="outline" *ngIf="!editar">
-        <mat-label>Contraseña</mat-label>
-        <input matInput [(ngModel)]="maestro.password" type="{{ inputType_1 }}" placeholder="Escribe contraseña">
-        <mat-icon matSuffix class="eye-icon" (click)="showPassword()">{{hide_1 ? 'visibility_off' :
-          'visibility'}}</mat-icon>
-      </mat-form-field>
-      <div *ngIf="errors.password" class="invalid-feedback">{{ errors.password }}</div>
+      <!-- Espacio para mejor visualización -->
 
-      <mat-form-field class="mat-input" appearance="outline" *ngIf="!editar">
+      <mat-form-field class="mat-input mat-hint-margin" appearance="outline" *ngIf="!editar">
+        <mat-label>Contraseña</mat-label>
+        <input matInput [(ngModel)]="maestro.password" type="{{ inputType_1 }}" placeholder="Escribe contraseña"
+          (ngModelChange)="checkPasswordLength()">
+        <mat-icon matSuffix class="eye-icon" (click)="showPassword()">
+          {{hide_1 ? 'visibility_off' : 'visibility'}}
+        </mat-icon>
+        <mat-hint align="end" [ngStyle]="{color: passwordIsValid ? 'green' : 'red'} ">
+          {{maestro.password?.length || 0}} {{ passwordIsValid ? '✔️' : '/ mínimo 8' }}
+        </mat-hint>
+      </mat-form-field>
+      <div *ngIf="errors.password" class="invalid-feedback" style="margin-top: 8px;">{{ errors.password }}</div>
+
+      <!-- Espacio para mejor visualización -->
+
+      <mat-form-field class="mat-input mat-hint-margin" appearance="outline" *ngIf="!editar">
         <mat-label>Confirmar contraseña</mat-label>
         <input matInput [(ngModel)]="maestro.confirmar_password" type="{{ inputType_2 }}"
-          placeholder="Confirma la contraseña">
-        <mat-icon matSuffix class="eye-icon" (click)="showPwdConfirmar()">{{hide_2 ? 'visibility_off' :
-          'visibility'}}</mat-icon>
+          placeholder="Confirma la contraseña" (ngModelChange)="checkConfirmPasswordLength()">
+        <mat-icon matSuffix class="eye-icon" (click)="showPwdConfirmar()">
+          {{hide_2 ? 'visibility_off' : 'visibility'}}
+        </mat-icon>
+        <mat-hint align="end" [ngStyle]="{color: confirmPasswordIsValid ? 'green' : 'red'} ">
+          {{maestro.confirmar_password?.length || 0}} {{ confirmPasswordIsValid ? '✔️' : '/ mínimo 8' }}
+        </mat-hint>
       </mat-form-field>
-      <div *ngIf="errors.confirmar_password" class="invalid-feedback">{{ errors.confirmar_password }}</div>
+      <div *ngIf="errors.confirmar_password" class="invalid-feedback" style="margin-top: 8px;">
+        {{errors.confirmar_password }}
+      </div>
 
-      <!-- Cambio de input de fecha -->
+      <!-- Espacio para mejor visualización -->
+
       <mat-form-field class="mat-input" appearance="outline">
         <mat-label>Fecha de nacimiento</mat-label>
         <input matInput [matDatepicker]="picker" [(ngModel)]="maestro.fecha_nacimiento" (focus)="picker.open()"
@@ -58,23 +83,33 @@
       </mat-form-field>
       <div *ngIf="errors.fecha_nacimiento" class="invalid-feedback">{{ errors.fecha_nacimiento }}</div>
 
+      <!-- Espacio para mejor visualización -->
+
       <mat-form-field class="mat-input" appearance="outline">
         <mat-label>Teléfono</mat-label>
         <input matInput [(ngModel)]="maestro.telefono" mask='(000) 000-0000' placeholder="Escribe teléfono">
       </mat-form-field>
       <div *ngIf="errors.telefono" class="invalid-feedback">{{ errors.telefono }}</div>
 
-      <mat-form-field class="mat-input" appearance="outline">
+      <!-- Espacio para mejor visualización -->
+
+      <mat-form-field class="mat-input mat-hint-margin" appearance="outline">
         <mat-label>RFC</mat-label>
-        <input matInput [(ngModel)]="maestro.rfc" placeholder="Escribe RFC" style="text-transform: uppercase;">
+        <input matInput minlength="12" maxlength="13" [(ngModel)]="maestro.rfc" placeholder="Escribe RFC"
+          style="text-transform: uppercase;">
+        <mat-hint align="end">{{maestro.rfc?.length || 0}}/13</mat-hint>
       </mat-form-field>
       <div *ngIf="errors.rfc" class="invalid-feedback">{{ errors.rfc }}</div>
+
+      <!-- Espacio para mejor visualización -->
 
       <mat-form-field class="mat-input" appearance="outline">
         <mat-label>Cubículo</mat-label>
         <input matInput [(ngModel)]="maestro.cubiculo" placeholder="Escribe el cubículo">
       </mat-form-field>
       <div *ngIf="errors.cubiculo" class="invalid-feedback">{{ errors.cubiculo }}</div>
+
+      <!-- Espacio para mejor visualización -->
 
       <mat-form-field class="mat-input" appearance="outline">
         <mat-label>Área de investigación</mat-label>
@@ -85,6 +120,8 @@
         </mat-select>
       </mat-form-field>
       <div *ngIf="errors.area_investigacion" class="invalid-feedback">{{ errors.area_investigacion }}</div>
+
+      <!-- Espacio para mejor visualización -->
 
       <div class="select-materias">
         <div class="row mt-3 mb-3">
@@ -99,6 +136,8 @@
           </mat-checkbox>
         </div>
       </div>
+
+      <!-- Espacio para mejor visualización -->
 
       <div class="section-buttons">
         <button class="btn btn-danger" (click)="regresar()">Cancelar</button>
