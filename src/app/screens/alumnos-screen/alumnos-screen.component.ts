@@ -12,7 +12,8 @@ import { Router } from '@angular/router';
 })
 export class AlumnosScreenComponent implements OnInit{
 
-  public name_user: string = "Luis Francisco Matlalcuatzi Gonzalez";
+  public name_user: string = "";
+  public rol: string = "";
   public lista_alumno:any[] = [];
 
   constructor(
@@ -22,6 +23,7 @@ export class AlumnosScreenComponent implements OnInit{
 
   ngOnInit(): void {
     this.name_user = this.facadeService.getUserCompleteName();
+    this.rol = this.facadeService.getUserGroup();
     //Listar alumnos
     this.obtenerAlumnos();
   }
