@@ -48,7 +48,7 @@ import { MaestrosScreenComponent } from './screens/maestros-screen/maestros-scre
     HomeScreenComponent,
     AdminScreenComponent,
     AlumnosScreenComponent,
-    MaestrosScreenComponent
+    MaestrosScreenComponent,
   ],
   imports: [
     BrowserModule,
