@@ -125,7 +125,7 @@ export class MaestrosService {
 
   //Obtener un solo maestro dependiendo su ID
   public getMaestroByID(idUser: Number){
-    return this.http.get<any>(`${environment.url_api}/maestros/?id=${idUser}`,httpOptions);
+    return this.http.get<any>(`${environment.url_api}/maestro/?id=${idUser}`,httpOptions);
   }
 
   //Servicio para actualizar un usuario

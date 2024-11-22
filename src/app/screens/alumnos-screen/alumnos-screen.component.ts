@@ -30,6 +30,7 @@ export class AlumnosScreenComponent implements OnInit{
   constructor(
     private facadeService: FacadeService,
     private AlumnosService: AlumnosService,
+    private router: Router
   ){}
 
   ngOnInit(): void {
@@ -83,8 +84,8 @@ export class AlumnosScreenComponent implements OnInit{
     );
   }
 
-  goEditarAlumno(id: number){
-    console.log("Editar alumno: ", id);
+  goEditarAlumno(idUser: number){
+    this.router.navigate(["registro-usuarios/alumno/" + idUser]);
   }
 
   goEliminarAlumno(id: number){
