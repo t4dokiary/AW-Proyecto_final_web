@@ -11,7 +11,7 @@
 
       <mat-form-field class="mat-input" appearance="outline">
         <mat-label>ID de administrador</mat-label>
-        <input matInput [(ngModel)]="admin.clave_admin" name="id" placeholder="Escribe clave de administrador">
+        <input matInput [(ngModel)]="admin.clave_admin" name="id" placeholder="Escribe clave de administrador" (keypress)="soloNumeros($event)">
       </mat-form-field>
       <div *ngIf="errors.clave_admin" class="invalid-feedback">{{ errors.clave_admin }}</div>
 

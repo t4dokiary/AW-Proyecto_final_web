@@ -162,7 +162,15 @@ export class RegistroMaestrosComponent implements OnInit {
     }
   }
 
-    // Método para comprobar longitud de la contraseña
+  public soloNumeros(event: KeyboardEvent) {
+    const charCode = event.key.charCodeAt(0);
+    // Permitir solo números (0-9)
+    if (!(charCode >= 48 && charCode <= 57)) { // Números del 0 al 9
+      event.preventDefault();
+    }
+  }
+
+  // Método para comprobar longitud de la contraseña
   checkPasswordLength() {
     this.passwordIsValid = this.maestro.password?.length >= 8;
   }

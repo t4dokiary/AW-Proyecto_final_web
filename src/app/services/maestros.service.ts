@@ -115,8 +115,11 @@ export class MaestrosService {
   }
 
   public obtenerListaMaestros (): Observable <any>{
+    // obtenemos el token de la sesión
     var token = this.facadeService.getSessionToken();
+    // establecemos las cabeceras
     var headers = new HttpHeaders({ 'Content-Type': 'application/json' , 'Authorization': 'Bearer '+token});
+    // retornamos la petición
     return this.http.get<any>(`${environment.url_api}/lista-maestros/`, {headers:headers});
   }
 
