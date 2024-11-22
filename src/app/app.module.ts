@@ -23,6 +23,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatDialogModule} from '@angular/material/dialog';
 //Para usar el mask
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 //Cambia el idioma a español
@@ -35,6 +36,7 @@ import { HomeScreenComponent } from './screens/home-screen/home-screen.component
 import { AdminScreenComponent } from './screens/admin-screen/admin-screen.component';
 import { AlumnosScreenComponent } from './screens/alumnos-screen/alumnos-screen.component';
 import { MaestrosScreenComponent } from './screens/maestros-screen/maestros-screen.component';
+import { EliminarUserModalComponent } from './modals/eliminar-user-modal/eliminar-user-modal.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +51,7 @@ import { MaestrosScreenComponent } from './screens/maestros-screen/maestros-scre
     AdminScreenComponent,
     AlumnosScreenComponent,
     MaestrosScreenComponent,
+    EliminarUserModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -67,7 +70,8 @@ import { MaestrosScreenComponent } from './screens/maestros-screen/maestros-scre
     MatNativeDateModule,
     NgxMaskDirective,
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatDialogModule
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'es-ES'},

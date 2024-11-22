@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { EliminarUserModalComponent } from 'src/app/modals/eliminar-user-modal/eliminar-user-modal.component';
 import { FacadeService } from 'src/app/services/facade.service';
 import { MaestrosService } from 'src/app/services/maestros.service';
 
@@ -10,11 +12,11 @@ import { MaestrosService } from 'src/app/services/maestros.service';
   templateUrl: './maestros-screen.component.html',
   styleUrls: ['./maestros-screen.component.scss']
 })
-export class MaestrosScreenComponent implements OnInit{
+export class MaestrosScreenComponent implements OnInit {
 
-  public name_user:string = "";
-  public rol:string = "";
-  public token : string = "";
+  public name_user: string = "";
+  public rol: string = "";
+  public token: string = "";
   public lista_maestros: any[] = [];
 
   //Para la tabla
@@ -31,8 +33,9 @@ export class MaestrosScreenComponent implements OnInit{
   constructor(
     public facadeService: FacadeService,
     public maestrosService: MaestrosService,
-    private router: Router
-  ){}
+    private router: Router,
+    public dialog: MatDialog
+  ) { }
 
   ngOnInit(): void {
     this.name_user = this.facadeService.getUserCompleteName();
@@ -41,7 +44,7 @@ export class MaestrosScreenComponent implements OnInit{
     //Obtengo el token del login
     this.token = this.facadeService.getSessionToken();
     console.log("Token: ", this.token);
-    if(this.token == ""){
+    if (this.token == "") {
       this.router.navigate([""]);
     }
     //Obtener maestros
@@ -51,7 +54,7 @@ export class MaestrosScreenComponent implements OnInit{
   }
 
   //Para paginación
-  public initPaginator(){
+  public initPaginator() {
     setTimeout(() => {
       this.dataSource.paginator = this.paginator;
       //console.log("Paginator: ", this.dataSourceIngresos.paginator);
@@ -70,16 +73,16 @@ export class MaestrosScreenComponent implements OnInit{
       this.paginator._intl.lastPageLabel = 'Última página';
       this.paginator._intl.previousPageLabel = 'Página anterior';
       this.paginator._intl.nextPageLabel = 'Página siguiente';
-    },500);
+    }, 500);
   }
 
   //Obtener alumnos
-  public obtenerMaestros(){
+  public obtenerMaestros() {
     this.maestrosService.obtenerListaMaestros().subscribe(
-      (response)=>{
+      (response) => {
         this.lista_maestros = response;
         console.log("Lista users: ", this.lista_maestros);
-        if(this.lista_maestros.length > 0){
+        if (this.lista_maestros.length > 0) {
           //Agregar datos del nombre e email
           this.lista_maestros.forEach(usuario => {
             usuario.first_name = usuario.user.first_name;
@@ -90,18 +93,35 @@ export class MaestrosScreenComponent implements OnInit{
 
           this.dataSource = new MatTableDataSource<DatosUsuario>(this.lista_maestros as DatosUsuario[]);
         }
-      }, (error)=>{
+      }, (error) => {
         alert("No se pudo obtener la lista de maestros");
       }
     );
   }
 
-  public goEditar(idUser: number){
-    this.router.navigate(["registro-usuarios/maestro/"+idUser]);
+  public goEditar(idUser: number) {
+    this.router.navigate(["registro-usuarios/maestro/" + idUser]);
   }
 
-  public delete(id: number){
+  public delete(idUser: number) {
+    //console.log("User:", idUser);
+    const dialogRef = this.dialog.open(EliminarUserModalComponent, {
+      data: { id: idUser, rol: 'maestro' }, //Se pasan valores a través del componente
+      height: '288px',
+      width: '328px',
+    });
 
+    dialogRef.afterClosed().subscribe(result => {
+      if (result.isDelete) {
+        console.log("maestro eliminado");
+        alert("Usuario eliminado correctamente");
+        //Recargar página
+        window.location.reload();
+      } else {
+        alert("maestro no eliminado ");
+        console.log("No se eliminó el maestro");
+      }
+    });
   }
 }//Final de la clase
 
